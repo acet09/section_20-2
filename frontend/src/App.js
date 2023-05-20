@@ -60,7 +60,17 @@ const router = createBrowserRouter([
               }
             }
           },
-          { path: ':eventId', element: <EventDetailPage /> },
+          {
+            path: ':eventId', element: <EventDetailPage />, loader: async () => {
+              const response = await fetch('http://localhost:8080/events');
+
+              if (!response.ok) {
+              } else {
+                const resData = await response.json();
+                return resData.events;
+              }
+            }
+          },
           { path: 'new', element: <NewEventPage /> },
           { path: ':eventId/edit', element: <EditEventPage /> },
         ]
